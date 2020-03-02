@@ -9,6 +9,7 @@ class Ceils : public QWidget
 public:
 	explicit	Ceils(QWidget *parent = nullptr);
 	void		set_label(int num, bool removable = false);
+	bool		get_unremovable() const { return unremovable; }
 signals:
 	void	clicked(QMouseEvent *event);
 	void	unselect();

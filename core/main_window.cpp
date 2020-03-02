@@ -1,7 +1,7 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 #include <QLayout>
-
+#include "is_right_place.h"
 main_window::main_window(QWidget *parent)
 	: QWidget(NULL)
     , ui(new Ui::main_window)
@@ -16,7 +16,7 @@ main_window::main_window(QWidget *parent)
 	{
 		lays[k].setMargin(5);
 		add_buts(lays, k);
-		mainlay->addLayout(&(lays[k]), k / 3 + 1, k % 3);
+		mainlay->addLayout(&(lays[k]), k % 3 + 1, k / 3); // + 1 because you have but_menu
 	}
 	int	a[9][9] = {{1,0,0,4,0,0,0,0,0},
 				   {0,6,7,1,0,5,3,0,0},
@@ -81,8 +81,10 @@ void	main_window::ceil_connection(int x, int y)
 void main_window::keyPressEvent(QKeyEvent *ev)
 {
 	if (selected_but)
-		if (ev->key() > Qt::Key_0 && ev->key() <= Qt::Key_9)
+		if (ev->key() > Qt::Key_0 && ev->key() <= Qt::Key_9 && !selected_but->get_unremovable())
+		{
 			this->selected_but->set_label(ev->key() - 48);
+		}
 }
 
 void main_window::select_but(Ceils *obj)

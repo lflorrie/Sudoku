@@ -1,5 +1,6 @@
 #include "ceil.h"
 #include <QMouseEvent>
+#include "is_right_place.h"
 
 Ceils::Ceils(QWidget *parent) : QWidget(parent),
 								str(new QLabel(this)),

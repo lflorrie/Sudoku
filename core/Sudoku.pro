@@ -17,12 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ceil.cpp \
+    is_rigth_place.cpp \
     main.cpp \
     main_menu.cpp \
     main_window.cpp
 
 HEADERS += \
     ceil.h \
+    is_right_place.h \
     main_menu.h \
     main_window.h
 
