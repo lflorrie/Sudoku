@@ -18,6 +18,15 @@ main_window::main_window(QWidget *parent)
 		add_buts(lays, k);
 		mainlay->addLayout(&(lays[k]), k / 3 + 1, k % 3);
 	}
+	int	a[9][9] = {{1,0,0,4,0,0,0,0,0},
+				   {0,6,7,1,0,5,3,0,0},
+				   {8,4,0,0,0,0,0,2,5},
+				   {0,0,6,2,5,0,8,4,0},
+				   {0,1,0,0,3,0,0,7,0},
+				   {0,7,2,0,1,6,9,0,0},
+				   {9,2,0,0,0,0,0,3,8},
+				   {0,0,3,6,0,9,5,1,0},
+				   {0,0,0,0,0,8,0,0,7}};
 	//connect all buttons
 	for (int i = 0; i < 9; ++i)
 	{
@@ -25,16 +34,21 @@ main_window::main_window(QWidget *parent)
 		{
 			ceil_connection(i, j);
 			connect(&this->buts[i][j], SIGNAL(i_am_selected(Ceils *)), this, SLOT(select_but(Ceils *)));
+			if (a[i][j] != 0)
+				buts[i][j].set_label(a[i][j], true);
 		}
 	}
+	//but_menu
 	QPushButton *but_menu;
 	but_menu = new QPushButton();
 	but_menu->setText("Выход");
 	but_menu->setFixedSize(100,30);
 	mainlay->addWidget(but_menu,0,0);
+
 	connect (but_menu, SIGNAL(clicked()), this, SLOT(but_exit_clicked()));
 	this->setFixedSize(550,550);
 	this->setLayout(mainlay);
+	this->setWindowTitle("SUDOKU");
 }
 
 main_window::~main_window()

@@ -8,7 +8,7 @@ class Ceils : public QWidget
     Q_OBJECT
 public:
 	explicit	Ceils(QWidget *parent = nullptr);
-	void		set_label(int num);
+	void		set_label(int num, bool removable = false);
 signals:
 	void	clicked(QMouseEvent *event);
 	void	unselect();
@@ -20,10 +20,11 @@ public slots:
 	void	unselect_ceil();
 	void	ceil_is_clicked(QMouseEvent *event);
 private:
+	QLabel		*str;
 	bool		selected;
 	QPalette	pal;
-	int			num;
-	QLabel		*str;
+	bool		unremovable;
+
 };
 
 #endif // CEIL_H

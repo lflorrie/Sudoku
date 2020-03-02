@@ -8,6 +8,7 @@ main_menu::main_menu(QWidget *parent) :
 	ui(new Ui::main_menu)
 {
 	ui->setupUi(this);
+	this->setWindowTitle("SUDOKU");
 }
 
 main_menu::~main_menu()
