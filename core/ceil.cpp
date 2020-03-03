@@ -25,7 +25,19 @@ Ceils::Ceils(QWidget *parent) : QWidget(parent),
 void Ceils::set_label(int num, bool removable /*= false*/)
 {
 	this->unremovable = removable;
-	this->str->setNum(num);
+	if (removable == true)
+	{
+		this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select2.svg")));
+		this->setPalette(pal);
+		this->update();
+	}
+	this->str->setText(QString(num + '0'));
+}
+
+int Ceils::get_label() const
+{
+
+	return this->str->text() == " " ? 0 : str->text().toInt();
 }
 
 void Ceils::unselect_ceil()
@@ -33,7 +45,10 @@ void Ceils::unselect_ceil()
 	if (selected == true)
 	{
 		selected = false;
-		pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//ceils.svg")));
+		if (!this->unremovable)
+			pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//ceils.svg")));
+		else
+			this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select2.svg")));
 		this->setPalette(pal);
 		this->update();
 	}

@@ -3,12 +3,14 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QChar>
 class Ceils : public QWidget
 {
     Q_OBJECT
 public:
 	explicit	Ceils(QWidget *parent = nullptr);
 	void		set_label(int num, bool removable = false);
+	int			get_label() const;
 	bool		get_unremovable() const { return unremovable; }
 signals:
 	void	clicked(QMouseEvent *event);

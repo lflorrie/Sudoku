@@ -30,7 +30,7 @@ private:
 
 private:
 	Ceils* selected_but;
-	Ceils buts[9][9];
+	Ceils **buts;
     Ui::main_window *ui;
 	QWidget* parent_window;
 };

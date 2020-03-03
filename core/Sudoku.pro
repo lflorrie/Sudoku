@@ -20,13 +20,16 @@ SOURCES += \
     is_rigth_place.cpp \
     main.cpp \
     main_menu.cpp \
-    main_window.cpp
+    main_window.cpp \
+    is_right_place_i.cpp \
+    Initialize_map.cpp
 
 HEADERS += \
     ceil.h \
     is_right_place.h \
     main_menu.h \
-    main_window.h
+    main_window.h \
+    is_right_place_i.h
 
 FORMS += \
     main_menu.ui \

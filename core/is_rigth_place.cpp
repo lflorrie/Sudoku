@@ -1,6 +1,6 @@
 #include "is_right_place.h"
-
-bool	check_square(int **map, int row, int col, int num)
+#include "ceil.h"
+bool		check_square(Ceils **map, int row, int col, int num)
 {
 	int x_offset;
 	int y_offset;
@@ -15,7 +15,7 @@ bool	check_square(int **map, int row, int col, int num)
 		j = 0;
 		while (j < 3)
 		{
-			if (map[i + y_offset][j + x_offset] == num + '0' &&
+			if (map[i + y_offset][j + x_offset].get_label() == num &&
 					i + y_offset != row && j + x_offset != col)
 				return (false);
 			++j;
@@ -25,36 +25,36 @@ bool	check_square(int **map, int row, int col, int num)
 	return (true);
 }
 
-int		check_v_line(int **map, int row, int col, int num)
+bool		check_v_line(Ceils **map, int row, int col, int num)
 {
 	int i;
 
 	i = 0;
 	while (i < 9)
 	{
-		if (map[i][col] == num + '0' && i != row)
-			return (0);
+		if (map[i][col].get_label() == num && i != row)
+			return (false);
 		++i;
 	}
-	return (1);
+	return (true);
 }
 
-bool	check_h_line(int **map, int row, int col, int num)
+bool		check_h_line(Ceils **map, int row, int col, int num)
 {
 	int i;
 
 	i = 0;
 	while (i < 9)
 	{
-		if (map[row][i] == num + '0' && i != col)
-			return (0);
+		if (map[row][i].get_label() == num && i != col)
+			return (false);
 		++i;
 	}
-	return (1);
+	return (true);
 }
 
-bool	is_right_place(int **map, int row, int col, int num)
+bool	is_right_place(Ceils **map, int row, int col, int num)
 {
-	return (check_h_line(map, row, col, num) * check_v_line(map, row, col, num)
-			* check_square(map, row, col, num));
+	return (check_h_line(map, row, col, num) && check_v_line(map, row, col, num)
+			&& check_square(map, row, col, num));
 }

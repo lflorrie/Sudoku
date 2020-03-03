@@ -1,14 +1,19 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 #include <QLayout>
+#include <QMessageBox>
 #include "is_right_place.h"
+#include "is_right_place_i.h"
 main_window::main_window(QWidget *parent)
 	: QWidget(NULL)
+	, selected_but (NULL)
     , ui(new Ui::main_window)
 	, parent_window(parent)
 {
+	buts = new Ceils*[9];
+		for(int i = 0; i < 9; ++i)
+			buts[i] = new Ceils[9];
 	ui->setupUi(this);
-	selected_but = NULL;
 	QGridLayout *lays = new QGridLayout[9];
 	QGridLayout *mainlay = new QGridLayout(this);
 	//layouts + buttons
@@ -18,7 +23,7 @@ main_window::main_window(QWidget *parent)
 		add_buts(lays, k);
 		mainlay->addLayout(&(lays[k]), k % 3 + 1, k / 3); // + 1 because you have but_menu
 	}
-	int	a[9][9] = {{1,0,0,4,0,0,0,0,0},
+	/*int	a[9][9] = {{1,0,0,4,0,0,0,0,0},
 				   {0,6,7,1,0,5,3,0,0},
 				   {8,4,0,0,0,0,0,2,5},
 				   {0,0,6,2,5,0,8,4,0},
@@ -26,7 +31,8 @@ main_window::main_window(QWidget *parent)
 				   {0,7,2,0,1,6,9,0,0},
 				   {9,2,0,0,0,0,0,3,8},
 				   {0,0,3,6,0,9,5,1,0},
-				   {0,0,0,0,0,8,0,0,7}};
+				   {0,0,0,0,0,8,0,0,7}};*/
+	int **a = get_map(1);
 	//connect all buttons
 	for (int i = 0; i < 9; ++i)
 	{
@@ -49,6 +55,9 @@ main_window::main_window(QWidget *parent)
 	this->setFixedSize(550,550);
 	this->setLayout(mainlay);
 	this->setWindowTitle("SUDOKU");
+	for (int i = 0; i < 9; ++i)
+		delete[] a[i];
+	delete[] a;
 }
 
 main_window::~main_window()
@@ -83,7 +92,22 @@ void main_window::keyPressEvent(QKeyEvent *ev)
 	if (selected_but)
 		if (ev->key() > Qt::Key_0 && ev->key() <= Qt::Key_9 && !selected_but->get_unremovable())
 		{
+			int row, col;
+			for (row = 0; row < 9; row++)
+			{
+				for (col = 0; col < 9; col++)
+					if (&buts[row][col] == selected_but) break;
+				if (&buts[row][col] == selected_but) break;
+			}
+			QPalette pal;
+			if (!is_right_place(buts,row , col, ev->key() - 48))
+				pal.setColor(this->backgroundRole(),Qt::red);
+			else
+				pal.setColor(this->backgroundRole(),Qt::green);
+			selected_but->setPalette(pal);
 			this->selected_but->set_label(ev->key() - 48);
+			QMessageBox::question(this,"Ты пидор","поздравляем, вы решили судоку",QMessageBox::Ok);
+			but_exit_clicked();
 		}
 }
 
