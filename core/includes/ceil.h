@@ -4,13 +4,18 @@
 #include <QWidget>
 #include <QLabel>
 #include <QChar>
+
 class Ceils : public QWidget
 {
     Q_OBJECT
 public:
 	explicit	Ceils(QWidget *parent = nullptr);
+	~Ceils();
 	void		set_label(int num, bool removable = false);
 	int			get_label() const;
+	bool		right_place() const { return right;}
+	void		set_place(bool a) { right = a;}
+
 	bool		get_unremovable() const { return unremovable; }
 signals:
 	void	clicked(QMouseEvent *event);
@@ -27,7 +32,7 @@ private:
 	bool		selected;
 	QPalette	pal;
 	bool		unremovable;
-
+	bool		right;
 };
 
 #endif // CEIL_H

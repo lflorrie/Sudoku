@@ -1,6 +1,6 @@
-#include "ceil.h"
 #include <QMouseEvent>
-#include "is_right_place.h"
+#include "includes/ceil.h"
+#include "includes/get_map.h"
 
 Ceils::Ceils(QWidget *parent) : QWidget(parent),
 								str(new QLabel(this)),
@@ -22,16 +22,25 @@ Ceils::Ceils(QWidget *parent) : QWidget(parent),
 	connect(this, SIGNAL(clicked(QMouseEvent *)), this, SLOT(ceil_is_clicked(QMouseEvent *)));
 }
 
+Ceils::~Ceils()
+{
+	delete str;
+}
+
 void Ceils::set_label(int num, bool removable /*= false*/)
 {
 	this->unremovable = removable;
 	if (removable == true)
 	{
+		this->right = true;
 		this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select2.svg")));
 		this->setPalette(pal);
 		this->update();
 	}
-	this->str->setText(QString(num + '0'));
+	if (num == 0)
+		str->setText(" ");
+	else
+		this->str->setText(QString(num + '0'));
 }
 
 int Ceils::get_label() const
@@ -46,7 +55,10 @@ void Ceils::unselect_ceil()
 	{
 		selected = false;
 		if (!this->unremovable)
-			pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//ceils.svg")));
+			if (this->right || this->get_label()== 0)
+				pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//ceils.svg")));
+			else
+				pal.setColor(this->backgroundRole(), QColor(Qt::red));
 		else
 			this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select2.svg")));
 		this->setPalette(pal);

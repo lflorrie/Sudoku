@@ -1,5 +1,5 @@
-#include "is_right_place.h"
-#include "ceil.h"
+#include "includes/get_map.h"
+#include "includes/ceil.h"
 bool		check_square(Ceils **map, int row, int col, int num)
 {
 	int x_offset;

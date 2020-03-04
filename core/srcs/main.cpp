@@ -1,11 +1,12 @@
-#include "main_window.h"
-#include "main_menu.h"
+#include "includes/main_window.h"
+#include "includes/main_menu.h"
+#include "includes/sudoku.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-	main_menu w;
+	Sudoku w;
     w.show();
     return a.exec();
 }

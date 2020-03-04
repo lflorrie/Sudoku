@@ -1,7 +1,8 @@
-#include "main_menu.h"
+#include <QLayout>
+#include "includes/main_menu.h"
 #include "ui_main_menu.h"
-#include <QApplication>
-#include "main_window.h"
+#include "includes/main_window.h"
+#include "includes/difficulty.h"
 
 main_menu::main_menu(QWidget *parent) :
 	QWidget(parent),
@@ -18,12 +19,12 @@ main_menu::~main_menu()
 
 void main_menu::on_but_play_clicked()
 {
-	main_window *w = new main_window(this);
-	this->setVisible(false);
-	w->show();
+	emit menu_play_clicked(1);
 }
 
 void main_menu::on_but_exit_clicked()
 {
-	this->close();
+	emit menu_exit_clicked(0);
 }
+
+

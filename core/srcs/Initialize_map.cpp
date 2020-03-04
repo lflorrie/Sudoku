@@ -2,7 +2,7 @@
 #include <ctime>
 #include <random>
 #include <cstdlib>
-#include "is_right_place_i.h"
+#include "includes/get_map.h"
 
 using namespace std;
 

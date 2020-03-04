@@ -11,24 +11,15 @@ main_window::main_window(QWidget *parent)
 		for(int i = 0; i < 9; ++i)
 			buts[i] = new Ceils[9];
 
-	QGridLayout *lays = new QGridLayout;
-
 	QGridLayout *mainlay = new QGridLayout();
 	//layouts + buttons
-	for (int k = 0; k < 9; ++k)
-	{
-		//lays->setMargin(5);
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 9; ++i)
 		{
-			for (int j = 0; j < 3; ++j)
+			for (int j = 0; j < 9; ++j)
 			{
-				lays->addWidget(&this->buts[i + k % 3 * 3][j + k / 3 * 3], i, j);
-			//	lays->addWidget(&buts[i][j],i, j);
+				mainlay->addWidget(&this->buts[i][j], i + 1, j);
 			}
 		}
-		//mainlay->addLayout(lays, k % 3 + 1, k / 3); // + 1 because you have but_menu
-	}
-	mainlay->addLayout(lays, 0 + 1,  0); // + 1 because you have but_menu
 	int **a = get_map(0);
 	//connect all buttons
 	for (int i = 0; i < 9; ++i)
@@ -45,15 +36,16 @@ main_window::main_window(QWidget *parent)
 	QPushButton *but_menu;
 	but_menu = new QPushButton();
 	but_menu->setText("Выход");
-	but_menu->setFixedSize(100,30);
-	//mainlay->addWidget(but_menu,0,0);
+	but_menu->setFixedSize(50,30);
+	mainlay->addWidget(but_menu,0,0);
+	connect(but_menu, SIGNAL(clicked()), this, SLOT(but_exit_clicked()));
 
 	this->setFixedSize(550,550);
 	this->setLayout(mainlay);
 	this->setWindowTitle("SUDOKU");
-//	for (int i = 0; i < 9; ++i)
-//		delete[] a[i];
-//	delete[] a;
+	for (int i = 0; i < 9; ++i)
+		delete[] a[i];
+	delete[] a;
 }
 
 main_window::~main_window()
@@ -135,6 +127,5 @@ void main_window::select_but(Ceils *obj)
 
 void main_window::but_exit_clicked()
 {
-	emit but_exit();
-	this->close();
+	emit but_exit(0);
 }
