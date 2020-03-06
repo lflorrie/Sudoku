@@ -15,24 +15,29 @@ public:
 	int			get_label() const;
 	bool		right_place() const { return right;}
 	void		set_place(bool a) { right = a;}
-
 	bool		get_unremovable() const { return unremovable; }
+
 signals:
 	void	clicked(QMouseEvent *event);
 	void	unselect();
 	void	i_am_selected(Ceils *obj);
-// QWidget interface
+
 protected:
 	void	mousePressEvent(QMouseEvent *event);
+
 public slots:
 	void	unselect_ceil();
 	void	ceil_is_clicked(QMouseEvent *event);
+
 private:
+	const	QString		pict_ceil = "..//..//Resources//ceil.svg";
+	const	QString		pict_def_ceil = "..//..//Resources//def_ceil.svg";
+	const	QString		pict_select = "..//..//Resources//select1.jpg";
+
 	QLabel		*str;
-	bool		selected;
 	QPalette	pal;
+	bool		selected;
 	bool		unremovable;
 	bool		right;
 };
-
 #endif // CEIL_H

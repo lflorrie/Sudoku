@@ -21,7 +21,7 @@ public:
 signals:
 	void dif_but_back(int a);
 
-	void dif_but_easy(int a);
+	void dif_but_start(int a);
 
 	void difficult(e_diff d);
 private slots:

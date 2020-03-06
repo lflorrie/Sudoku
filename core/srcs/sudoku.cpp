@@ -7,11 +7,9 @@ Sudoku::Sudoku(QWidget *parent) : QWidget(parent),
 
 	w_diff = new Difficulty();
 
-	w_game = new main_window();
-
+	w_game = NULL;
 	stack->addWidget(w_menu);
 	stack->addWidget(w_diff);
-	stack->addWidget(w_game);
 
 				//CONNECTION
 	//MENU
@@ -19,8 +17,22 @@ Sudoku::Sudoku(QWidget *parent) : QWidget(parent),
 	connect(w_menu, SIGNAL(menu_exit_clicked(int)), this, SLOT(close()));
 	//Diff
 	connect(w_diff, SIGNAL(dif_but_back(int)), stack, SLOT(setCurrentIndex(int)));
-	connect(w_diff, SIGNAL(dif_but_easy(int)), stack, SLOT(setCurrentIndex(int)));
+	connect(w_diff, SIGNAL(dif_but_start(int)), this, SLOT(create_map(int)));
+
 	//GAME
-	connect(w_game, SIGNAL(but_exit(int)), stack, SLOT(setCurrentIndex(int)));
 	this->setLayout(stack);
+	this->setMinimumSize(550,550);
+}
+
+void Sudoku::create_map(int diff)
+{
+	if (w_game)
+	{
+		stack->removeWidget(w_game);
+		delete w_game;
+	}
+	w_game = new main_window(this, diff);
+	connect(w_game, SIGNAL(but_exit(int)), stack, SLOT(setCurrentIndex(int)));
+	stack->addWidget(w_game);
+	stack->setCurrentIndex(2);
 }

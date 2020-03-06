@@ -8,12 +8,10 @@ Ceils::Ceils(QWidget *parent) : QWidget(parent),
 								unremovable(false)
 
 {
-	QPixmap pict("..//..//Resources//ceils.svg");
 	this->setFixedSize(50,50);
-	pal.setBrush(this->backgroundRole(), QBrush(QPixmap(pict)));
+	pal.setBrush(this->backgroundRole(), QBrush(QPixmap(pict_ceil)));
 	this->setAutoFillBackground(true);
 	this->setPalette(pal);
-
 
 	str->setText(" ");
 	str->setFont(QFont("Calibri", 25));
@@ -33,7 +31,7 @@ void Ceils::set_label(int num, bool removable /*= false*/)
 	if (removable == true)
 	{
 		this->right = true;
-		this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select2.svg")));
+		this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap(pict_def_ceil)));
 		this->setPalette(pal);
 		this->update();
 	}
@@ -55,12 +53,12 @@ void Ceils::unselect_ceil()
 	{
 		selected = false;
 		if (!this->unremovable)
-			if (this->right || this->get_label()== 0)
-				pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//ceils.svg")));
-			else
-				pal.setColor(this->backgroundRole(), QColor(Qt::red));
+//			if (this->right || this->get_label()== 0)
+				pal.setBrush(this->backgroundRole(), QBrush(QPixmap(pict_ceil)));
+			//else
+				//pal.setColor(this->backgroundRole(), QColor(Qt::red));
 		else
-			this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select2.svg")));
+			this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap(pict_def_ceil)));
 		this->setPalette(pal);
 		this->update();
 	}
@@ -80,7 +78,7 @@ void Ceils::ceil_is_clicked(QMouseEvent *event)
 		if (selected == false){
 			emit i_am_selected(this);
 			selected = true;
-			this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap("..//..//Resources//select1.jpg")));
+			this->pal.setBrush(this->backgroundRole(), QBrush(QPixmap(pict_select)));
 			this->setPalette(pal);
 			this->update();
 		}

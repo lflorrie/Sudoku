@@ -3,7 +3,8 @@
 #include <QMessageBox>
 #include "includes/get_map.h"
 
-main_window::main_window(QWidget *parent)
+
+main_window::main_window(QWidget *parent, int diffic)
 	: QWidget(parent)
 	, selected_but (NULL)
 {
@@ -13,28 +14,25 @@ main_window::main_window(QWidget *parent)
 
 	QGridLayout *mainlay = new QGridLayout();
 	//layouts + buttons
-		for (int i = 0; i < 9; ++i)
-		{
-			for (int j = 0; j < 9; ++j)
-			{
-				mainlay->addWidget(&this->buts[i][j], i + 1, j);
-			}
-		}
-	int **a = get_map(0);
+	for (int i = 0; i < 9; ++i)
+		mainlay->addLayout(lays(i), i / 3 + 1, i % 3);
+
+	int **a = get_map(diffic);
 	//connect all buttons
 	for (int i = 0; i < 9; ++i)
 	{
 		for (int j = 0; j < 9; ++j)
 		{
 			ceil_connection(i, j);
-			connect(&this->buts[i][j], SIGNAL(i_am_selected(Ceils *)), this, SLOT(select_but(Ceils *)));
+			connect(&buts[i][j], SIGNAL(i_am_selected(Ceils *)), this, SLOT(select_but(Ceils *)));
 			if (a[i][j] != 0)
 				buts[i][j].set_label(a[i][j], true);
 		}
 	}
+
 	//but_menu
 	QPushButton *but_menu;
-	but_menu = new QPushButton();
+	but_menu = new QPushButton(this);
 	but_menu->setText("Выход");
 	but_menu->setFixedSize(50,30);
 	mainlay->addWidget(but_menu,0,0);
@@ -43,6 +41,7 @@ main_window::main_window(QWidget *parent)
 	this->setFixedSize(550,550);
 	this->setLayout(mainlay);
 	this->setWindowTitle("SUDOKU");
+
 	for (int i = 0; i < 9; ++i)
 		delete[] a[i];
 	delete[] a;
@@ -56,15 +55,19 @@ main_window::~main_window()
 
 }
 
-void main_window::add_buts(QGridLayout *lays, int k)
+QGridLayout *main_window::lays(int k)
 {
+	QGridLayout *lay = new QGridLayout;
+
 	for (int i = 0; i < 3; ++i)
 	{
 		for (int j = 0; j < 3; ++j)
 		{
-			lays[k].addWidget(&this->buts[i + k % 3 * 3][j + k / 3 * 3], i, j);
+			lay->addWidget(&buts[i + k / 3 * 3][j + k % 3 * 3], i, j);
 		}
 	}
+	lay->setMargin(7);
+	return lay;
 }
 
 void	main_window::ceil_connection(int x, int y)
@@ -95,12 +98,12 @@ void main_window::keyPressEvent(QKeyEvent *ev)
 		QPalette pal;
 		if (!is_right_place(buts,row , col, ev->key() - 48))
 		{
-			pal.setColor(this->backgroundRole(),Qt::red);
+			pal.setColor(this->backgroundRole(),QColor(230,30,30));
 			buts[row][col].set_place(false);
 		}
 		else
 		{
-			pal.setColor(this->backgroundRole(),Qt::green);
+			pal.setColor(this->backgroundRole(),QColor(30,200,30));
 			buts[row][col].set_place(true);
 		}
 		selected_but->setPalette(pal);
@@ -109,13 +112,34 @@ void main_window::keyPressEvent(QKeyEvent *ev)
 			for (int j = 0; j < 9; ++j)
 				if (!(buts[i][j].right_place()))
 					return ;
-		QMessageBox::question(this,"Ты пидор","поздравляем, вы решили судоку",QMessageBox::Ok);
+		QMessageBox::question(this,"Поздравляем!", "вы решили судоку",QMessageBox::Ok);
 		but_exit_clicked();
 	}
 	if ((ev->key() == Qt::Key_Delete || ev->key() == Qt::Key_Backspace)&& !selected_but->get_unremovable())
 	{
 		buts[row][col].set_label(0);
 		buts[row][col].set_place(false);
+	}
+	QMouseEvent m(QEvent::MouseButtonPress, QPointF(1,1), Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+	if (ev->key() == Qt::Key_W || ev->key() == 1062)
+	{
+		if (row != 0)
+			buts[row - 1][col].ceil_is_clicked(&m);
+	}
+	if (ev->key() == Qt::Key_S || ev->key() == 1067)
+	{
+		if (row != 8)
+			buts[row + 1][col].ceil_is_clicked(&m);
+	}
+	if (ev->key() == Qt::Key_A || ev->key() == 1060)
+	{
+		if (col != 0)
+			buts[row][col - 1].ceil_is_clicked(&m);
+	}
+	if (ev->key() == Qt::Key_D || ev->key() == 1042)
+	{
+		if (col != 8)
+			buts[row][col + 1].ceil_is_clicked(&m);
 	}
 }
 

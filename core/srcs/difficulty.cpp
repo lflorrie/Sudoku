@@ -21,15 +21,15 @@ void Difficulty::on_but_back_clicked()
 
 void Difficulty::on_but_easy_clicked()
 {
-	emit dif_but_easy(2);
+	emit dif_but_start(0);
 }
 
 void Difficulty::on_but_medium_clicked()
 {
-	emit dif_but_easy(2);
+	emit dif_but_start(1);
 }
 
 void Difficulty::on_but_hard_clicked()
 {
-	emit dif_but_easy(2);
+	emit dif_but_start(2);
 }

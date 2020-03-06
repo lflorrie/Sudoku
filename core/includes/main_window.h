@@ -12,7 +12,7 @@ class main_window : public QWidget
     Q_OBJECT
 
 public:
-    main_window(QWidget *parent = nullptr);
+	main_window(QWidget *parent = nullptr, int diffic = 0);
     ~main_window();
 
 	void	ceil_connection(int x, int y);
@@ -25,10 +25,9 @@ public slots:
 signals:
 	void	but_exit(int a);
 private:
-	void	add_buts(QGridLayout *lay, int k);
-
+	QGridLayout	*lays(int k);
 private:
-	Ceils* selected_but;
-	Ceils **buts;
+	Ceils*	selected_but;
+	Ceils**	buts;
 };
 #endif // MAIN_WINDOW_H

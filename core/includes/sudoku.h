@@ -11,8 +11,9 @@ class Sudoku : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit Sudoku(QWidget *parent = nullptr);
-
+	explicit	Sudoku(QWidget *parent = nullptr);
+public slots:
+	void		create_map(int diff);
 signals:
 private:
 	QStackedLayout	*stack;
